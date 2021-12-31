@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/stylesheets/ingresar.css">
+
+
+{{#if conocido}}
+<h1>Nice to meet you {{nombre}}!</h1>
+<p>You can <a href="/salir">Log Out</a> or play some <a href="/music">Music</a></p>
+{{/if}}
+
+{{#unless conocido}}
+<h1>Welcome Stranger!</h1>
+<p>If you want to continue, first tell me your name!</p>
+<form action="/ingresar" method="post">
+    <input type="text" name="nombre"><button>Join</button>
+</form>
+{{/unless}}
