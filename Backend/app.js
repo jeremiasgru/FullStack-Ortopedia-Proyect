@@ -4,15 +4,18 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require('dotenv').config()
+
 var session = require('express-session');
 
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
-// var loginRouter = require('./routes/admin/login');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var loginRouter = require('./routes/admin/login');
+var adminRouter = require('./routes/admin/novedades');
 
 var app = express();
 
-// view engine setup
+// view engine setup 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -23,42 +26,28 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-    secret: 'dfg31d53h16s51h6fg1hs3df12',
-    resave: false,
-    saveUninitialized: true
-}));
+  secret:'PW2022awqyeudj',
+  resave: false,
+  saveUninitialized:true
+}))
 
-app.get('/', function (req,res) {
-  var conocido = Boolean(req.session.nombre);
+secured = async (req, res, next) => {
+  try {
+    console.log(req.session.id_usuario);
+    if (req.session.id_usuario) {
+      next();
+    } else {
+      res.redirect('/admin/login');
+    } //cierro else
+  } catch (error) {
+  console.log(error); 
+  } //cierro catch error
+} //cierro secured
 
-  res.render('index', {
-    title: 'Sesiones de Express.js',
-    conocido: conocido,
-    nombre: req.session.nombre
-  });
-
-});
-
-app.post('/ingresar', function (req, res) {
-  if (req.body.nombre) {
-    req.session.nombre = req.body.nombre
-  }
-  res.redirect('/');
-});
-
-app.get('/salir', function (req, res) {
-  req.session.destroy();
-  res.redirect('/');
-});
-
-app.get('/music', function (req, res) {
-  req.session.destroy();
-  res.redirect('https://www.youtube.com/watch?v=f02mOEt11OQ');
-});
-
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-// app.use('/admin/login', loginRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/admin/login', loginRouter);
+app.use('/admin/novedades', secured, adminRouter);
 
 
 // catch 404 and forward to error handler

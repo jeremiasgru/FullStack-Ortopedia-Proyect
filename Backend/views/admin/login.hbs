@@ -1,1 +1,32 @@
-<h2>Proximamente administrador</h2>
+
+ 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" >
+	<link rel="stylesheet" href="/stylesheets/login.css">
+
+
+    <form action="/admin/login" method="post" class="formulario">
+    
+    <h1>Login</h1>
+     <div class="contenedor">
+          
+         <div class="input-contenedor">
+         <i class="fas fa-envelope icon"></i>
+         <input type="text" id="inputUser" placeholder="Usuario" name="usuario">
+         
+         </div>
+         
+         <div class="input-contenedor">
+        <i class="fas fa-key icon"></i>
+         <input type="password" id="inputPassword" placeholder="Contraseña" name="password">
+         
+         </div>
+         <input type="submit" class="button">
+             {{#if error}}
+             <p>Usuario o contraseña incorrecta.</p>
+            {{/if}}
+         <p>Al registrarte, aceptas nuestras Condiciones de uso y Política de privacidad.</p>
+         <p>¿No tienes una cuenta? <a class="link" href="registrarvista.html">Registrate </a></p>
+     </div>
+    </form>
+
+  
