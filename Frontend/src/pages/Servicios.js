@@ -32,6 +32,15 @@ const Servicios = (props) =>{
                 <a href="https://www.facebook.com/OrtopediaSanCarlos">Leer más</a>
             </div>
         </div>
+        
+        
+    {/* Whatsapp Widget */}
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <a href="https://api.whatsapp.com/send?phone=+543855258587&text=Ortopedia%20San%20Carlos%20-%20MITRE%20106" class="float" target="_blank">
+        <i class="fa fa-whatsapp my-float"></i>
+    </a>
+
     </main>
     );
 }
