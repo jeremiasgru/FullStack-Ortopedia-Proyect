@@ -1,7 +1,41 @@
+import { useState } from 'react';
+import axios from 'axios';
+
 import '../styles/components/pages/Contacto.css'
 import '../styles/components/pages/whatsapp.css'
 
 const Contacto = (props) => {
+
+  const initialForm = {
+    nombre: '',
+    email: '',
+    telefono: '',
+    mensaje: ''
+  }
+
+  const [sending, setSending] = useState(false);
+  const [msg, setMsg] = useState('');
+  const [formData, setFormData] = useState(initialForm);
+
+const handleChange = e => {
+  const { name,value } = e.target;
+  setFormData(oldData => ({
+    ...oldData,
+    [name]: value //forma dinamica
+  }));
+} 
+
+const handleSubmit = async e => {
+  e.preventDefault();
+  setMsg('');
+  setSending(true)
+  const response = await axios.post('http://localhost:3000/api/contacto', formData);
+  setSending(false);
+  setMsg(response.data.message);
+  if (response.data.error === false) {
+    setFormData(initialForm)
+  }
+}
     return (
         
         <main className="holder">
@@ -48,30 +82,33 @@ const Contacto = (props) => {
           <span className="circle one"></span>
           <span className="circle two"></span>
 
-          <form action="index.html" autocomplete="off">
+          <form action="/contacto" method='post' onSubmit={handleSubmit}>
             <h3 className="title">Contactanos</h3>
             <div className="input-container">
-              <input type="text" name="name" className="input" placeholder='Nombre completo'/>
+              <input type="text" name="nombre" className="input" placeholder='Nombre completo' value={formData.nombre} onChange={handleChange} />
     
               <span>Nombre completo</span>
             </div>
             <div className="input-container">
-              <input type="email" name="email" className="input" placeholder='Email'/>
+              <input type="email" name="email" className="input" placeholder='Email' value={formData.email} onChange={handleChange} />
 
               <span>Email</span>
             </div>
             <div className="input-container">
-              <input type="tel" name="phone" className="input" placeholder='Telefono' />
+              <input type="tel" name="telefono" className="input" placeholder='Telefono' value={formData.telefono} onChange={handleChange} />
 
               <span>Telefono</span>
             </div>
             <div className="input-container textarea">
-              <textarea name="message" className="input" placeholder='Tu mensaje'></textarea>
+              <textarea name="mensaje" className="input" placeholder='Tu mensaje' value={formData.mensaje} onChange={handleChange} ></textarea>
 
               <span>Mensaje</span>
             </div>
             <input type="submit" value="Enviar" className="btn" />
           </form>
+          {sending ? <p>Enviando...</p> : null}
+          {msg ? <p>{msg}</p> : null}
+
         </div>
       </div>
     </div>
